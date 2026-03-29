@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relay — AI Copilot for Expert Network Calls</title>
+  <meta name="description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base. Invisible capture. Enterprise-grade privacy.">
+  <meta property="og:title" content="Relay — AI Copilot for Expert Network Calls">
+  <meta property="og:description" content="Real-time transcription. AI-powered answers from your private knowledge base. Invisible to the other party.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://relay-ai.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Relay — AI Copilot for Expert Network Calls">
+  <meta name="twitter:description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9A%A1</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 900: '#0f172a', 800: '#1e293b', 700: '#334155' },
+            accent: '#3b82f6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #0f172a; color: #e2e8f0; }
+
+    /* Scroll reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+    .reveal-stagger > .reveal:nth-child(2) { transition-delay: 120ms; }
+    .reveal-stagger > .reveal:nth-child(3) { transition-delay: 240ms; }
+    .reveal-stagger > .reveal:nth-child(4) { transition-delay: 360ms; }
+
+    /* Glow effect for hero */
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    /* Mockup styling */
+    .mockup-window {
+      background: #1e293b;
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(148,163,184,0.05);
+    }
+    .mockup-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: rgba(15,23,42,0.6);
+      border-bottom: 1px solid rgba(148,163,184,0.1);
+    }
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    /* Gradient border cards */
+    .card-glow {
+      position: relative;
+      background: #1e293b;
+      border: 1px solid rgba(148,163,184,0.1);
+      border-radius: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+    .card-glow:hover {
+      border-color: rgba(59,130,246,0.3);
+      box-shadow: 0 0 30px rgba(59,130,246,0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Pricing highlight */
+    .pricing-pro {
+      background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0.02) 100%);
+      border-color: rgba(59,130,246,0.4);
+    }
+    .pricing-pro:hover {
+      border-color: rgba(59,130,246,0.6);
+    }
+
+    /* Flow line for steps */
+    .step-connector {
+      position: absolute;
+      top: 28px;
+      left: calc(50% + 28px);
+      width: calc(100% - 56px);
+      height: 2px;
+      background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(59,130,246,0.1));
+    }
+
+    /* Data flow diagram */
+    .flow-local {
+      border: 1px solid rgba(34,197,94,0.3);
+      background: rgba(34,197,94,0.05);
+    }
+    .flow-cloud {
+      border: 1px solid rgba(251,191,36,0.3);
+      background: rgba(251,191,36,0.05);
+    }
+
+    /* Nav backdrop */
+    nav {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+    }
+
+    /* Mobile menu */
+    #mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    #mobile-menu.open {
+      max-height: 400px;
+    }
+
+    /* Typing animation for mockup */
+    .typing-line {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typing 2s steps(40) forwards;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    /* Pulse for live indicator */
+    .pulse-dot {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-navy-900/80 border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <span class="text-white font-semibold text-lg tracking-tight">Relay</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
+        <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white transition-colors">How It Works</a>
+        <a href="#pricing" class="text-sm text-slate-400 hover:text-white transition-colors">Pricing</a>
+        <a href="#download" class="text-sm text-slate-400 hover:text-white transition-colors">Download</a>
+        <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="text-sm font-medium bg-accent hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">Get Pro</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="menu-toggle" class="md:hidden text-slate-400 hover:text-white p-2" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden bg-navy-900/95 border-t border-white/5">
+      <div class="px-6 py-4 flex flex-col gap-4">
+        <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
+        <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white transition-colors">How It Works</a>
+        <a href="#pricing" class="text-sm text-slate-400 hover:text-white transition-colors">Pricing</a>
+        <a href="#download" class="text-sm text-slate-400 hover:text-white transition-colors">Download</a>
+        <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="text-sm font-medium bg-accent text-white px-4 py-2 rounded-lg text-center">Get Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+    <div class="hero-glow"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-medium mb-8">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent pulse-dot"></span>
+          Now available for Windows
+        </div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
+          Your AI Copilot for<br>
+          <span class="bg-gradient-to-r from-accent to-cyan-400 bg-clip-text text-transparent">Expert Network Calls</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
+          Real-time transcription. AI-powered answers from your private knowledge base. Invisible to the other party.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent hover:bg-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-accent/25 text-base">
+            Buy Pro License &mdash; $49/mo
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+          <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white font-medium px-8 py-3.5 rounded-xl transition-all text-base">
+            Download Free Trial
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- App Mockup -->
+      <div class="max-w-4xl mx-auto reveal">
+        <div class="mockup-window">
+          <div class="mockup-titlebar">
+            <div class="mockup-dot bg-red-500/80"></div>
+            <div class="mockup-dot bg-yellow-500/80"></div>
+            <div class="mockup-dot bg-green-500/80"></div>
+            <span class="ml-3 text-xs text-slate-500 font-mono">Relay v1.4.0</span>
+            <div class="ml-auto flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span>
+              <span class="text-xs text-green-400 font-mono">LIVE</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/5">
+            <!-- Transcript panel -->
+            <div class="p-5 md:p-6">
+              <div class="flex items-center gap-2 mb-4">
+                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Live Transcript</span>
+              </div>
+              <div class="space-y-3 font-mono text-sm">
+                <div class="flex gap-2">
+                  <span class="text-accent font-medium shrink-0">Client:</span>
+                  <span class="text-slate-300">"What's the current regulatory landscape for gene therapy in the EU?"</span>
+                </div>
+                <div class="flex gap-2">
+                  <span class="text-emerald-400 font-medium shrink-0">You:</span>
+                  <span class="text-slate-400">"Great question. The EMA updated their..."</span>
+                </div>
+                <div class="flex gap-2">
+                  <span class="text-accent font-medium shrink-0">Client:</span>
+                  <span class="text-slate-300">"How does the ATMP framework compare to FDA's approach?"</span>
+                </div>
+                <div class="h-px bg-white/5 my-2"></div>
+                <div class="flex items-center gap-2 text-slate-500 text-xs">
+                  <div class="flex gap-0.5">
+                    <span class="w-1 h-3 bg-accent/60 rounded-full animate-pulse"></span>
+                    <span class="w-1 h-3 bg-accent/40 rounded-full animate-pulse" style="animation-delay:0.15s"></span>
+                    <span class="w-1 h-3 bg-accent/30 rounded-full animate-pulse" style="animation-delay:0.3s"></span>
+                  </div>
+                  Transcribing...
+                </div>
+              </div>
+            </div>
+            <!-- AI Answers panel -->
+            <div class="p-5 md:p-6">
+              <div class="flex items-center gap-2 mb-4">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">AI Answer</span>
+                <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-amber-400/10 text-amber-400 font-medium">BLUF</span>
+              </div>
+              <div class="space-y-3 text-sm">
+                <div class="p-3 rounded-lg bg-accent/5 border border-accent/10">
+                  <p class="text-white font-medium mb-1.5">Bottom Line:</p>
+                  <p class="text-slate-300 leading-relaxed">The ATMP framework is more centralized than FDA's approach. EMA requires a single Committee review, while FDA splits oversight across CBER and CDER.</p>
+                </div>
+                <div class="text-slate-400 leading-relaxed">
+                  <p class="mb-2"><span class="text-slate-300 font-medium">Key differences:</span></p>
+                  <ul class="space-y-1.5 ml-3">
+                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> EMA's CAT committee provides unified assessment</li>
+                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> FDA has separate pathways for biologics vs. devices</li>
+                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> EU conditional approval timeline: ~150 days</li>
+                  </ul>
+                </div>
+                <div class="flex items-center gap-1.5 text-[11px] text-slate-500 pt-1">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                  Source: EU_Gene_Therapy_Regulatory_2025.pdf &mdash; p.47
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain Points -->
+  <section class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Expert calls shouldn't feel like<br class="hidden md:block"> open-book exams</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">Consultants on GLG, AlphaSights, and Guidepoint calls face the same friction every time.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-stagger">
+        <div class="card-glow p-8 reveal">
+          <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">2-4 hours of prep per call</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Experts spend more time preparing than on the actual call. Reviewing notes, re-reading reports, rehearsing answers.</p>
+        </div>
+        <div class="card-glow p-8 reveal">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Split attention during calls</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Manually searching notes while trying to listen to the client. You miss nuance while you scramble for data.</p>
+        </div>
+        <div class="card-glow p-8 reveal">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">No automated connection</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Between live questions and your prepared knowledge. The gap between what you know and what you can recall under pressure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-transparent to-navy-800/30">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">How Relay Works</h2>
+        <p class="text-slate-400 max-w-lg mx-auto">Three steps from install to live answers.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative reveal-stagger">
+        <!-- Connector lines (desktop only) -->
+        <div class="hidden md:block absolute top-16 left-[calc(16.67%+24px)] w-[calc(33.33%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
+        <div class="hidden md:block absolute top-16 left-[calc(50%+24px)] w-[calc(33.33%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
+
+        <div class="text-center reveal">
+          <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+          </div>
+          <div class="text-xs font-mono text-accent mb-2">Step 01</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Upload Your Knowledge</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed, chunked & embedded into a local vector database. Data never leaves your machine.</p>
+        </div>
+
+        <div class="text-center reveal">
+          <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          </div>
+          <div class="text-xs font-mono text-accent mb-2">Step 02</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Start Your Call</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Relay captures system audio invisibly &mdash; no plugins, no API connections. Works with Zoom, Teams, Meet, phone, any platform.</p>
+        </div>
+
+        <div class="text-center reveal">
+          <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
+          </div>
+          <div class="text-xs font-mono text-accent mb-2">Step 03</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Get Real-Time AI Answers</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">As the client asks questions, AI-generated answers appear instantly, grounded in your uploaded documents. You stay focused on the conversation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Built for Professionals Who Can't<br class="hidden md:block"> Afford to Miss a Beat</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-stagger">
+        <div class="card-glow p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Private Knowledge Base</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed and indexed locally. Your data never leaves your machine.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-glow p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">BLUF Executive Prompter</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Bottom Line Up Front &mdash; AI delivers conclusion-first answers formatted for instant executive decision-making. No wake word needed.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-glow p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Invisible Audio Capture</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Relay listens at the system audio level. No Zoom/Teams plugin needed. The other party has no idea it exists. Works with any conferencing platform.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-glow p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-2">Enterprise-Grade Privacy</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">100% of documents and vector embeddings stay on your infrastructure. Only small text snippets are sent to the LLM API &mdash; never full documents. Zero data retention.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security / Architecture -->
+  <section class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-navy-800/30 to-transparent">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Your Data Stays With You</h2>
+        <p class="text-slate-400 max-w-lg mx-auto">Relay is designed with a local-first architecture. Here's exactly what stays on your machine and what doesn't.</p>
+      </div>
+
+      <div class="reveal">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Local -->
+          <div class="flow-local rounded-2xl p-8">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+              <span class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">On Your Machine</span>
+            </div>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div>
+                  <span class="text-white font-medium text-sm">Documents & Files</span>
+                  <p class="text-slate-400 text-xs mt-0.5">DOCX, PDF, all reference materials</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div>
+                  <span class="text-white font-medium text-sm">Vector Database</span>
+                  <p class="text-slate-400 text-xs mt-0.5">All embeddings stored locally</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div>
+                  <span class="text-white font-medium text-sm">Conversation History</span>
+                  <p class="text-slate-400 text-xs mt-0.5">Transcripts stay on your machine</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div>
+                  <span class="text-white font-medium text-sm">Audio Processing</span>
+                  <p class="text-slate-400 text-xs mt-0.5">Audio capture and processing stays local</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Cloud -->
+          <div class="flow-cloud rounded-2xl p-8">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+              <span class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Cloud (Minimal)</span>
+            </div>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+                <div>
+                  <span class="text-white font-medium text-sm">LLM API Calls</span>
+                  <p class="text-slate-400 text-xs mt-0.5">Only small text snippets sent for AI answers</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+                <div>
+                  <span class="text-white font-medium text-sm">Embeddings API</span>
+                  <p class="text-slate-400 text-xs mt-0.5">Text chunks sent for vectorization only</p>
+                </div>
+              </li>
+            </ul>
+            <div class="mt-6 p-3 rounded-lg bg-amber-400/5 border border-amber-400/10">
+              <p class="text-xs text-amber-300/80"><span class="font-semibold">Zero retention.</span> API providers do not store or train on your data. Snippets are processed and discarded.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data flow arrow -->
+        <div class="hidden md:flex items-center justify-center mt-8 gap-3">
+          <div class="h-px w-16 bg-gradient-to-r from-transparent to-slate-600"></div>
+          <span class="text-xs text-slate-500 font-mono">Only text snippets cross this boundary</span>
+          <div class="h-px w-16 bg-gradient-to-r from-slate-600 to-transparent"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="py-20 md:py-28 border-t border-white/5">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Simple, Transparent Pricing</h2>
+        <p class="text-slate-400">Start free. Upgrade when you're ready.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto reveal-stagger">
+        <!-- Free -->
+        <div class="card-glow p-8 reveal">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-white mb-1">Free Trial</h3>
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-bold text-white">$0</span>
+            </div>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              10 min of live transcription per session
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Full knowledge base access
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              All AI features included
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              No credit card required
+            </li>
+          </ul>
+          <a href="#download" class="block w-full text-center py-3 rounded-xl border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white font-medium transition-all text-sm">
+            Download Free Trial
+          </a>
+        </div>
+
+        <!-- Pro -->
+        <div class="card-glow pricing-pro p-8 reveal">
+          <div class="mb-6">
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-lg font-semibold text-white">Relay Pro</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-accent/20 text-accent font-semibold uppercase tracking-wider">Popular</span>
+            </div>
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-bold text-white">$49</span>
+              <span class="text-slate-400 text-sm">/month</span>
+            </div>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              <span class="text-white font-medium">Unlimited</span>&nbsp;live call sessions
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Full knowledge base access
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              GPT-powered AI answers
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              Priority support
+            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300">
+              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              2-device license
+            </li>
+          </ul>
+          <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="block w-full text-center py-3 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold transition-all hover:shadow-lg hover:shadow-accent/25 text-sm">
+            Get Relay Pro
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section id="download" class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-transparent to-navy-800/50">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Get Started in 60 Seconds</h2>
+        <p class="text-slate-400 mb-10 max-w-lg mx-auto">Download Relay, add your API keys, upload your documents, and you're live on your next call.</p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-navy-900 font-semibold px-8 py-4 rounded-xl transition-all text-base">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Download for Windows
+          </a>
+        </div>
+        <p class="text-sm text-slate-500 mb-12">macOS coming soon</p>
+
+        <!-- Setup steps -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+          <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
+            <div class="text-2xl font-bold text-accent mb-1 font-mono">1</div>
+            <p class="text-xs text-slate-400">Install Relay</p>
+          </div>
+          <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
+            <div class="text-2xl font-bold text-accent mb-1 font-mono">2</div>
+            <p class="text-xs text-slate-400">Add your API keys</p>
+          </div>
+          <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
+            <div class="text-2xl font-bold text-accent mb-1 font-mono">3</div>
+            <p class="text-xs text-slate-400">Upload documents</p>
+          </div>
+          <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
+            <div class="text-2xl font-bold text-accent mb-1 font-mono">4</div>
+            <p class="text-xs text-slate-400">Start your call</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex flex-col items-center md:items-start gap-2">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-accent flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
+            <span class="text-white font-semibold tracking-tight">Relay</span>
+          </div>
+          <p class="text-xs text-slate-500">Never drop a thread. Precision intelligence, on demand.</p>
+        </div>
+        <div class="flex items-center gap-6 text-sm text-slate-500">
+          <a href="#" class="hover:text-slate-300 transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-slate-300 transition-colors">Terms of Service</a>
+          <a href="mailto:trumanitechnologies@gmail.com" class="hover:text-slate-300 transition-colors">Contact</a>
+        </div>
+      </div>
+      <div class="mt-8 pt-6 border-t border-white/5 text-center">
+        <p class="text-xs text-slate-600">&copy; 2026 Relay AI. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.remove('open');
+      });
+    });
+
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY + 100;
+      sections.forEach(section => {
+        const id = section.getAttribute('id');
+        const link = document.querySelector(`nav a[href="#${id}"]`);
+        if (link) {
+          if (scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight) {
+            link.classList.add('text-white');
+            link.classList.remove('text-slate-400');
+          } else {
+            link.classList.remove('text-white');
+            link.classList.add('text-slate-400');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
