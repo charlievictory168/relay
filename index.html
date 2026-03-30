@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relay — AI Copilot for Expert Network Calls</title>
-  <meta name="description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base. Invisible capture. Enterprise-grade privacy.">
-  <meta property="og:title" content="Relay — AI Copilot for Expert Network Calls">
-  <meta property="og:description" content="Real-time transcription. AI-powered answers from your private knowledge base. Invisible to the other party.">
+  <title>Relay — AI Copilot for High-Stakes Conversations</title>
+  <meta name="description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base. No meeting bots. Enterprise-grade privacy. BYOK.">
+  <meta property="og:title" content="Relay — AI Copilot for High-Stakes Conversations">
+  <meta property="og:description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base. No meeting bots. Enterprise-grade privacy. BYOK.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://relay-ai.com/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Relay — AI Copilot for Expert Network Calls">
-  <meta name="twitter:description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base.">
+  <meta name="twitter:title" content="Relay — AI Copilot for High-Stakes Conversations">
+  <meta name="twitter:description" content="Real-time AI-powered answers during live calls, grounded in your private knowledge base. No meeting bots. Enterprise-grade privacy. BYOK.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9A%A1</text></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -36,184 +35,65 @@
   <style>
     * { box-sizing: border-box; }
     body { background: #0f172a; color: #e2e8f0; }
-
-    /* Scroll reveal animation */
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Stagger children */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
-    .reveal-stagger > .reveal:nth-child(2) { transition-delay: 120ms; }
-    .reveal-stagger > .reveal:nth-child(3) { transition-delay: 240ms; }
-    .reveal-stagger > .reveal:nth-child(4) { transition-delay: 360ms; }
-
-    /* Glow effect for hero */
-    .hero-glow {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-    }
-
-    /* Mockup styling */
-    .mockup-window {
-      background: #1e293b;
-      border: 1px solid rgba(148,163,184,0.15);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(148,163,184,0.05);
-    }
-    .mockup-titlebar {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 12px 16px;
-      background: rgba(15,23,42,0.6);
-      border-bottom: 1px solid rgba(148,163,184,0.1);
-    }
-    .mockup-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    /* Gradient border cards */
-    .card-glow {
-      position: relative;
-      background: #1e293b;
-      border: 1px solid rgba(148,163,184,0.1);
-      border-radius: 16px;
-      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-    }
-    .card-glow:hover {
-      border-color: rgba(59,130,246,0.3);
-      box-shadow: 0 0 30px rgba(59,130,246,0.08);
-      transform: translateY(-2px);
-    }
-
-    /* Pricing highlight */
-    .pricing-pro {
-      background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(59,130,246,0.02) 100%);
-      border-color: rgba(59,130,246,0.4);
-    }
-    .pricing-pro:hover {
-      border-color: rgba(59,130,246,0.6);
-    }
-
-    /* Flow line for steps */
-    .step-connector {
-      position: absolute;
-      top: 28px;
-      left: calc(50% + 28px);
-      width: calc(100% - 56px);
-      height: 2px;
-      background: linear-gradient(90deg, rgba(59,130,246,0.4), rgba(59,130,246,0.1));
-    }
-
-    /* Data flow diagram */
-    .flow-local {
-      border: 1px solid rgba(34,197,94,0.3);
-      background: rgba(34,197,94,0.05);
-    }
-    .flow-cloud {
-      border: 1px solid rgba(251,191,36,0.3);
-      background: rgba(251,191,36,0.05);
-    }
-
-    /* Nav backdrop */
-    nav {
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-    }
-
-    /* Mobile menu */
-    #mobile-menu {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
-    }
-    #mobile-menu.open {
-      max-height: 400px;
-    }
-
-    /* Typing animation for mockup */
-    .typing-line {
-      overflow: hidden;
-      white-space: nowrap;
-      animation: typing 2s steps(40) forwards;
-    }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    /* Pulse for live indicator */
-    .pulse-dot {
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    .reveal-stagger > .reveal:nth-child(2) { transition-delay: 100ms; }
+    .reveal-stagger > .reveal:nth-child(3) { transition-delay: 200ms; }
+    .reveal-stagger > .reveal:nth-child(4) { transition-delay: 300ms; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%); top: -250px; left: 50%; transform: translateX(-50%); pointer-events: none; }
+    .card { background: #1e293b; border: 1px solid rgba(148,163,184,0.1); border-radius: 16px; transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+    .card:hover { border-color: rgba(59,130,246,0.25); box-shadow: 0 0 30px rgba(59,130,246,0.06); transform: translateY(-2px); }
+    .mockup { background: #1e293b; border: 1px solid rgba(148,163,184,0.12); border-radius: 12px; overflow: hidden; box-shadow: 0 25px 60px -12px rgba(0,0,0,0.5); }
+    .mockup-titlebar { display: flex; align-items: center; padding: 10px 16px; background: rgba(15,23,42,0.6); border-bottom: 1px solid rgba(148,163,184,0.08); }
+    .flow-local { border: 1px solid rgba(34,197,94,0.25); background: rgba(34,197,94,0.04); }
+    .flow-cloud { border: 1px solid rgba(148,163,184,0.15); background: rgba(148,163,184,0.03); }
+    .pricing-pro { background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.02) 100%); border-color: rgba(59,130,246,0.35); }
+    .pricing-pro:hover { border-color: rgba(59,130,246,0.55); }
+    nav { backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); }
+    #mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    #mobile-menu.open { max-height: 400px; }
+    .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
   </style>
 </head>
 <body class="font-sans antialiased">
 
-  <!-- Navigation -->
+  <!-- ─── NAV ──────────────────────────────────────────── -->
   <nav class="fixed top-0 w-full z-50 bg-navy-900/80 border-b border-white/5">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2.5 group">
+      <a href="#" class="flex items-center gap-2.5">
         <div class="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-          </svg>
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         </div>
         <span class="text-white font-semibold text-lg tracking-tight">Relay</span>
       </a>
-
-      <!-- Desktop nav -->
       <div class="hidden md:flex items-center gap-8">
-        <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
         <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white transition-colors">How It Works</a>
+        <a href="#use-cases" class="text-sm text-slate-400 hover:text-white transition-colors">Use Cases</a>
+        <a href="#security" class="text-sm text-slate-400 hover:text-white transition-colors">Security</a>
         <a href="#pricing" class="text-sm text-slate-400 hover:text-white transition-colors">Pricing</a>
         <a href="#download" class="text-sm text-slate-400 hover:text-white transition-colors">Download</a>
         <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="text-sm font-medium bg-accent hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">Get Pro</a>
       </div>
-
-      <!-- Mobile hamburger -->
       <button id="menu-toggle" class="md:hidden text-slate-400 hover:text-white p-2" aria-label="Toggle menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
-
-    <!-- Mobile menu -->
     <div id="mobile-menu" class="md:hidden bg-navy-900/95 border-t border-white/5">
       <div class="px-6 py-4 flex flex-col gap-4">
-        <a href="#features" class="text-sm text-slate-400 hover:text-white transition-colors">Features</a>
-        <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white transition-colors">How It Works</a>
-        <a href="#pricing" class="text-sm text-slate-400 hover:text-white transition-colors">Pricing</a>
-        <a href="#download" class="text-sm text-slate-400 hover:text-white transition-colors">Download</a>
+        <a href="#how-it-works" class="text-sm text-slate-400 hover:text-white">How It Works</a>
+        <a href="#use-cases" class="text-sm text-slate-400 hover:text-white">Use Cases</a>
+        <a href="#security" class="text-sm text-slate-400 hover:text-white">Security</a>
+        <a href="#pricing" class="text-sm text-slate-400 hover:text-white">Pricing</a>
+        <a href="#download" class="text-sm text-slate-400 hover:text-white">Download</a>
         <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="text-sm font-medium bg-accent text-white px-4 py-2 rounded-lg text-center">Get Pro</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+  <!-- ─── HERO ─────────────────────────────────────────── -->
+  <section class="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
     <div class="hero-glow"></div>
     <div class="max-w-6xl mx-auto px-6 relative z-10">
       <div class="max-w-3xl mx-auto text-center mb-16">
@@ -223,18 +103,18 @@
         </div>
         <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6">
           Your AI Copilot for<br>
-          <span class="bg-gradient-to-r from-accent to-cyan-400 bg-clip-text text-transparent">Expert Network Calls</span>
+          <span class="bg-gradient-to-r from-accent to-cyan-400 bg-clip-text text-transparent">High-Stakes Conversations</span>
         </h1>
         <p class="text-lg md:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-10">
-          Real-time transcription. AI-powered answers from your private knowledge base. Invisible to the other party.
+          Real-time transcription and AI-powered answers from your private knowledge base. Upload your docs, start your call, and never fumble a question again.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent hover:bg-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-accent/25 text-base">
-            Buy Pro License &mdash; $49/mo
+            Get Relay Pro &mdash; $49/mo
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </a>
           <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white font-medium px-8 py-3.5 rounded-xl transition-all text-base">
-            Download Free Trial
+            Try Free
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
           </a>
         </div>
@@ -242,27 +122,21 @@
 
       <!-- App Mockup -->
       <div class="max-w-4xl mx-auto reveal">
-        <div class="mockup-window">
+        <div class="mockup">
           <div class="mockup-titlebar">
-            <span class="text-xs text-slate-500 font-mono">Relay v1.4.0</span>
-            <div class="flex items-center gap-2 ml-2">
+            <span class="text-xs text-slate-500 font-mono">Relay</span>
+            <div class="flex items-center gap-2 ml-3">
               <span class="w-2 h-2 rounded-full bg-green-400 pulse-dot"></span>
               <span class="text-xs text-green-400 font-mono">LIVE</span>
             </div>
             <div class="ml-auto flex items-center gap-0.5">
-              <button class="w-10 h-7 flex items-center justify-center text-slate-400 hover:bg-white/5 rounded-sm transition-colors" aria-label="Minimize">
-                <svg class="w-3 h-0.5" fill="currentColor" viewBox="0 0 12 2"><rect width="12" height="2" rx="0.5"/></svg>
-              </button>
-              <button class="w-10 h-7 flex items-center justify-center text-slate-400 hover:bg-white/5 rounded-sm transition-colors" aria-label="Maximize">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 10 10"><rect x="0.75" y="0.75" width="8.5" height="8.5" rx="0.5"/></svg>
-              </button>
-              <button class="w-10 h-7 flex items-center justify-center text-slate-400 hover:bg-red-500/80 hover:text-white rounded-sm transition-colors" aria-label="Close">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 10 10"><path d="M1 1l8 8M9 1l-8 8"/></svg>
-              </button>
+              <button class="w-10 h-7 flex items-center justify-center text-slate-500 hover:bg-white/5 rounded-sm" aria-label="Minimize"><svg class="w-3 h-0.5" fill="currentColor" viewBox="0 0 12 2"><rect width="12" height="2" rx="0.5"/></svg></button>
+              <button class="w-10 h-7 flex items-center justify-center text-slate-500 hover:bg-white/5 rounded-sm" aria-label="Maximize"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 10 10"><rect x="0.75" y="0.75" width="8.5" height="8.5" rx="0.5"/></svg></button>
+              <button class="w-10 h-7 flex items-center justify-center text-slate-500 hover:bg-red-500/80 hover:text-white rounded-sm" aria-label="Close"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 10 10"><path d="M1 1l8 8M9 1l-8 8"/></svg></button>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/5">
-            <!-- Transcript panel -->
+            <!-- Transcript -->
             <div class="p-5 md:p-6">
               <div class="flex items-center gap-2 mb-4">
                 <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
@@ -271,11 +145,11 @@
               <div class="space-y-3 font-mono text-sm">
                 <div class="flex gap-2">
                   <span class="text-accent font-medium shrink-0">Client:</span>
-                  <span class="text-slate-300">"How do you see the AI accelerator market evolving beyond Nvidia's current dominance with the B200?"</span>
+                  <span class="text-slate-300">"What's driving the current capacity constraint in advanced packaging?"</span>
                 </div>
                 <div class="flex gap-2">
                   <span class="text-accent font-medium shrink-0">Client:</span>
-                  <span class="text-slate-300">"And more specifically, what is the primary supply chain bottleneck for these hyperscaler custom silicon projects right now?"</span>
+                  <span class="text-slate-300">"How are IDMs responding versus pure-play foundries?"</span>
                 </div>
                 <div class="h-px bg-white/5 my-2"></div>
                 <div class="flex items-center gap-2 text-slate-500 text-xs">
@@ -288,7 +162,7 @@
                 </div>
               </div>
             </div>
-            <!-- AI Answers panel -->
+            <!-- AI Answer -->
             <div class="p-5 md:p-6">
               <div class="flex items-center gap-2 mb-4">
                 <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
@@ -296,18 +170,10 @@
                 <span class="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-amber-400/10 text-amber-400 font-medium">BLUF</span>
               </div>
               <div class="space-y-3 text-sm">
-                <div class="p-3 rounded-lg bg-accent/5 border border-accent/10">
-                  <p class="text-white font-medium mb-1.5">Bottom Line:</p>
-                  <p class="text-slate-300 leading-relaxed">Advanced packaging (TSMC's CoWoS) and High Bandwidth Memory (HBM3e) yields are the primary bottlenecks, not traditional wafer fab capacity. Lead times for CoWoS currently remain stretched at 10&ndash;12 months.</p>
+                <div class="p-3 rounded-lg bg-accent/5 border-l-2 border-accent/40">
+                  <p class="text-white font-medium leading-relaxed">CoWoS demand is outpacing TSMC's 2024 capacity by ~3x, driven by AI accelerator stacking requirements. Key constraint is interposer substrate supply &mdash; 6&ndash;9 month lead times as of Q3 2024.</p>
                 </div>
-                <div class="text-slate-400 leading-relaxed">
-                  <p class="mb-2"><span class="text-slate-300 font-medium">Key constraints:</span></p>
-                  <ul class="space-y-1.5 ml-3">
-                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> <span><span class="text-slate-300">CoWoS Capacity:</span> TSMC capacity projected to reach ~400k wafers/yr by late 2025, but demand still outpaces supply by 20%.</span></li>
-                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> <span><span class="text-slate-300">HBM3e Yields:</span> Memory supply constrained by complex 8-Hi/12-Hi stacking yields (currently est. 65&ndash;70%) among top suppliers like SK Hynix.</span></li>
-                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> <span><span class="text-slate-300">Allocation Wars:</span> Hyperscaler ASICs (Google TPU, AWS Trainium) competing directly with Nvidia for this exact same packaging capacity.</span></li>
-                  </ul>
-                </div>
+                <p class="text-slate-400 text-[13px] leading-relaxed">IDMs (Intel, Samsung) are investing in internal capacity but trailing TSMC by 12&ndash;18 months on yield. Pure-plays (ASE, Amkor) are expanding aggressively but face equipment bottlenecks.</p>
                 <div class="flex items-center gap-1.5 text-[11px] text-slate-500 pt-1">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                   Source: Global_Semi_Supply_Chain_2025_Q1.pdf &mdash; p.14
@@ -316,44 +182,45 @@
             </div>
           </div>
         </div>
+        <p class="text-center text-xs text-slate-500 mt-4">Example: Pre-sales engineer fielding technical questions on a semiconductor client call</p>
       </div>
     </div>
   </section>
 
-  <!-- Pain Points -->
+  <!-- ─── PAIN POINTS ──────────────────────────────────── -->
   <section class="py-20 md:py-28 border-t border-white/5">
     <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16 reveal">
-        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Expert calls shouldn't feel like<br class="hidden md:block"> open-book exams</h2>
-        <p class="text-slate-400 max-w-xl mx-auto">Consultants on expert network calls face the same friction every time.</p>
+      <div class="text-center mb-6 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Important calls shouldn't feel like<br class="hidden md:block"> open-book exams</h2>
+        <p class="text-slate-400 max-w-xl mx-auto">Whether it's a client consultation, a sales discovery, or a technical deep-dive &mdash; the pattern is the same.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-stagger">
-        <div class="card-glow p-8 reveal">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14 reveal-stagger">
+        <div class="card p-8 reveal">
           <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center mb-5">
             <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">2-4 hours of prep per call</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Experts spend more time preparing than on the actual call. Reviewing notes, re-reading reports, rehearsing answers.</p>
+          <h3 class="text-lg font-semibold text-white mb-2">Hours of prep, minutes of recall</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">You spend 2&ndash;4 hours reading docs before a call, then struggle to retrieve the right detail in the moment.</p>
         </div>
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
           <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center mb-5">
             <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Split attention during calls</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Manually searching notes while trying to listen to the client. You miss nuance while you scramble for data.</p>
+          <h3 class="text-lg font-semibold text-white mb-2">Split attention kills credibility</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Searching notes while the other person talks means you miss context and sound distracted.</p>
         </div>
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
           <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-5">
-            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">No automated connection</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Between live questions and your prepared knowledge. The gap between what you know and what you can recall under pressure.</p>
+          <h3 class="text-lg font-semibold text-white mb-2">Your expertise deserves better</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">You know the answers &mdash; they're in your docs, your reports, your research. You just can't access them fast enough live.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How It Works -->
+  <!-- ─── HOW IT WORKS ─────────────────────────────────── -->
   <section id="how-it-works" class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-transparent to-navy-800/30">
     <div class="max-w-6xl mx-auto px-6">
       <div class="text-center mb-16 reveal">
@@ -361,91 +228,143 @@
         <p class="text-slate-400 max-w-lg mx-auto">Three steps from install to live answers.</p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative reveal-stagger">
-        <!-- Connector lines (desktop only) -->
         <div class="hidden md:block absolute top-16 left-[calc(16.67%+24px)] w-[calc(33.33%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
         <div class="hidden md:block absolute top-16 left-[calc(50%+24px)] w-[calc(33.33%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
-
         <div class="text-center reveal">
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
           </div>
           <div class="text-xs font-mono text-accent mb-2">Step 01</div>
           <h3 class="text-lg font-semibold text-white mb-3">Upload Your Knowledge</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed, chunked & embedded into a local vector database. Data never leaves your machine.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed, chunked, and embedded into a local vector database. Your data never leaves your machine.</p>
         </div>
-
         <div class="text-center reveal">
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
           </div>
           <div class="text-xs font-mono text-accent mb-2">Step 02</div>
           <h3 class="text-lg font-semibold text-white mb-3">Start Your Call</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Relay captures system audio invisibly &mdash; no plugins, no API connections. Works with Zoom, Teams, Meet, phone, any platform.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">Relay captures system audio locally &mdash; no plugins, no meeting bots, no API connections to your conferencing app. Works with Zoom, Teams, Meet, phone, any platform.</p>
         </div>
-
         <div class="text-center reveal">
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
           </div>
           <div class="text-xs font-mono text-accent mb-2">Step 03</div>
           <h3 class="text-lg font-semibold text-white mb-3">Get Real-Time AI Answers</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">As the client asks questions, AI-generated answers appear instantly, grounded in your uploaded documents. You stay focused on the conversation.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">As questions come up, AI-generated answers appear instantly, grounded in YOUR uploaded documents. Conclusion-first (BLUF format) so you can glance and respond with confidence.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Features -->
-  <section id="features" class="py-20 md:py-28 border-t border-white/5">
+  <!-- ─── USE CASES ────────────────────────────────────── -->
+  <section id="use-cases" class="py-20 md:py-28 border-t border-white/5">
     <div class="max-w-6xl mx-auto px-6">
       <div class="text-center mb-16 reveal">
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Built for Professionals Who Can't<br class="hidden md:block"> Afford to Miss a Beat</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-stagger">
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Technical Sales &amp; Pre-Sales</h3>
+              <p class="text-xs text-accent mb-2">Solutions Architects, Sales Engineers, SEs</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload product specs, API docs, competitive battle cards, and pricing sheets. When a prospect asks a curveball technical question, Relay surfaces the answer from your own materials &mdash; instantly.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Consulting &amp; Advisory</h3>
+              <p class="text-xs text-emerald-400 mb-2">Independent Consultants, Subject-Matter Experts</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload your research, industry reports, and case notes before a client engagement. Relay gives you AI-assisted recall grounded in your private knowledge &mdash; so you can focus on the conversation, not your notes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Product &amp; Customer Discovery</h3>
+              <p class="text-xs text-purple-400 mb-2">Product Managers, Customer Success, UX Researchers</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload competitive analyses, user research summaries, and internal docs. During discovery calls, Relay helps you connect what you're hearing to what you already know.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card p-8 reveal">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5">
+              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-white mb-1">Sales Discovery &amp; Demos</h3>
+              <p class="text-xs text-amber-400 mb-2">Account Executives, BDRs</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload case studies, ROI calculators, objection-handling playbooks. When a prospect raises a concern mid-demo, Relay pulls the right proof point from your library in real-time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FEATURES ─────────────────────────────────────── -->
+  <section class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-navy-800/30 to-transparent">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16 reveal">
+        <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Why Relay</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal-stagger">
+        <div class="card p-8 reveal">
           <div class="flex items-start gap-4">
             <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0 mt-0.5">
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
             </div>
             <div>
               <h3 class="text-lg font-semibold text-white mb-2">Private Knowledge Base</h3>
-              <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed and indexed locally. Your data never leaves your machine.</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed and indexed locally using LanceDB vector embeddings. Your documents never leave your machine.</p>
             </div>
           </div>
         </div>
-
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
           <div class="flex items-start gap-4">
             <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5">
               <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg>
             </div>
             <div>
               <h3 class="text-lg font-semibold text-white mb-2">BLUF Executive Prompter</h3>
-              <p class="text-slate-400 text-sm leading-relaxed">Bottom Line Up Front &mdash; AI delivers conclusion-first answers formatted for instant executive decision-making. No wake word needed.</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Bottom Line Up Front &mdash; AI delivers conclusion-first answers formatted for instant decision-making. No wake word, no lag. Just glance and go.</p>
             </div>
           </div>
         </div>
-
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
           <div class="flex items-start gap-4">
             <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"/></svg>
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-white mb-2">Invisible Audio Capture</h3>
-              <p class="text-slate-400 text-sm leading-relaxed">Relay listens at the system audio level. No Zoom/Teams plugin needed. The other party has no idea it exists. Works with any conferencing platform.</p>
+              <h3 class="text-lg font-semibold text-white mb-2">No Bot Joins Your Call</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Relay captures audio at the system level on your machine. No Zoom bot, no Teams plugin, no third-party attendee in the meeting room. The call experience is completely unaffected.</p>
             </div>
           </div>
         </div>
-
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
           <div class="flex items-start gap-4">
             <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5">
-              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-white mb-2">Enterprise-Grade Privacy</h3>
-              <p class="text-slate-400 text-sm leading-relaxed">100% of documents and vector embeddings stay on your infrastructure. Only small text snippets are sent to the LLM API &mdash; never full documents. Zero data retention.</p>
+              <h3 class="text-lg font-semibold text-white mb-2">GPT-Powered Intelligence</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Powered by OpenAI GPT models via your own API key. Answers are grounded in your uploaded documents using RAG (retrieval-augmented generation) &mdash; not generic ChatGPT responses.</p>
             </div>
           </div>
         </div>
@@ -453,14 +372,13 @@
     </div>
   </section>
 
-  <!-- Security / Architecture -->
-  <section class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-navy-800/30 to-transparent">
+  <!-- ─── SECURITY ─────────────────────────────────────── -->
+  <section id="security" class="py-20 md:py-28 border-t border-white/5">
     <div class="max-w-4xl mx-auto px-6">
       <div class="text-center mb-16 reveal">
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Your Data Stays With You</h2>
-        <p class="text-slate-400 max-w-lg mx-auto">Relay is designed with a local-first architecture. Here's exactly what stays on your machine and what doesn't.</p>
+        <p class="text-slate-400 max-w-lg mx-auto">Local-first architecture. Here's exactly what stays on your machine and what doesn't.</p>
       </div>
-
       <div class="reveal">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Local -->
@@ -472,91 +390,70 @@
             <ul class="space-y-4">
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">Documents & Files</span>
-                  <p class="text-slate-400 text-xs mt-0.5">DOCX, PDF, all reference materials</p>
-                </div>
+                <div><span class="text-white font-medium text-sm">Documents &amp; Vector DB (LanceDB)</span><p class="text-slate-400 text-xs mt-0.5">All files, embeddings, and indexes</p></div>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">Vector Database</span>
-                  <p class="text-slate-400 text-xs mt-0.5">All embeddings stored locally</p>
-                </div>
+                <div><span class="text-white font-medium text-sm">System Audio Capture</span><p class="text-slate-400 text-xs mt-0.5">Audio processed locally before streaming to STT</p></div>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">Zero-Retention &amp; Ephemeral by Design</span>
-                  <p class="text-slate-400 text-xs mt-0.5">Relay does not save any conversation history. Transcripts exist strictly in your computer's temporary RAM during the active session. The moment you close the app or end the call, all audio and text data are permanently destroyed. Nothing is logged server-side.</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">Audio Processing</span>
-                  <p class="text-slate-400 text-xs mt-0.5">Audio capture and processing stays local</p>
-                </div>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">Your API Keys (BYOK)</span>
-                  <p class="text-slate-400 text-xs mt-0.5">You bring your own OpenAI and Deepgram API keys. Your data is governed by enterprise B2B policies &mdash; zero data retention, and your audio, transcripts, and documents are never used to train AI models.</p>
-                </div>
+                <div><span class="text-white font-medium text-sm">App Interface &amp; Settings</span><p class="text-slate-400 text-xs mt-0.5">All configuration stored locally</p></div>
               </li>
             </ul>
           </div>
-
           <!-- Cloud -->
           <div class="flow-cloud rounded-2xl p-8">
             <div class="flex items-center gap-3 mb-6">
-              <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-              <span class="text-sm font-semibold text-amber-400 uppercase tracking-wider">Cloud (Minimal)</span>
+              <div class="w-3 h-3 rounded-full bg-slate-400"></div>
+              <span class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Cloud (Minimal, Ephemeral)</span>
             </div>
             <ul class="space-y-4">
               <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">LLM API Calls</span>
-                  <p class="text-slate-400 text-xs mt-0.5">Only small text snippets sent for AI answers</p>
-                </div>
+                <svg class="w-5 h-5 text-slate-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+                <div><span class="text-white font-medium text-sm">Small text snippets &rarr; OpenAI API</span><p class="text-slate-400 text-xs mt-0.5">Your key, B2B zero-retention policy</p></div>
               </li>
               <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
-                <div>
-                  <span class="text-white font-medium text-sm">Embeddings API</span>
-                  <p class="text-slate-400 text-xs mt-0.5">Text chunks sent for vectorization only</p>
-                </div>
+                <svg class="w-5 h-5 text-slate-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+                <div><span class="text-white font-medium text-sm">Audio stream &rarr; Deepgram API</span><p class="text-slate-400 text-xs mt-0.5">Your key, B2B zero-retention policy</p></div>
               </li>
             </ul>
-            <div class="mt-6 p-3 rounded-lg bg-amber-400/5 border border-amber-400/10">
-              <p class="text-xs text-amber-300/80"><span class="font-semibold">Zero retention.</span> API providers do not store or train on your data. Snippets are processed and discarded.</p>
+            <div class="mt-6 p-3 rounded-lg bg-slate-500/5 border border-slate-500/10">
+              <p class="text-xs text-slate-400"><span class="font-semibold text-slate-300">Not used for AI model training.</span> All API providers operate under enterprise B2B terms with zero data retention.</p>
             </div>
           </div>
         </div>
 
-        <!-- Data flow arrow -->
-        <div class="hidden md:flex items-center justify-center mt-8 gap-3">
-          <div class="h-px w-16 bg-gradient-to-r from-transparent to-slate-600"></div>
-          <span class="text-xs text-slate-500 font-mono">Only text snippets cross this boundary</span>
-          <div class="h-px w-16 bg-gradient-to-r from-slate-600 to-transparent"></div>
-        </div>
-
-        <!-- No Bots Callout -->
-        <div class="mt-10 p-6 rounded-2xl border border-red-500/20 bg-red-500/5 text-center max-w-2xl mx-auto">
-          <div class="flex items-center justify-center gap-2 mb-3">
-            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-            <h3 class="text-lg font-bold text-white">No Bots. Ever.</h3>
+        <!-- Three badges -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+          <div class="rounded-xl p-5 bg-navy-800/60 border border-white/5 text-center">
+            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1.5">Your API Keys (BYOK)</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">You bring your own OpenAI and Deepgram API keys. Your data is governed by their enterprise B2B policies &mdash; zero data retention, never used to train AI models.</p>
           </div>
-          <p class="text-sm text-slate-400 leading-relaxed">Relay never joins your meeting room. No Zoom bot, no Teams integration, no third-party attendee. Relay captures audio at the system level &mdash; a passive, invisible listener on your machine only. The other party is never alerted.</p>
+          <div class="rounded-xl p-5 bg-navy-800/60 border border-white/5 text-center">
+            <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1.5">No Bots. Ever.</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Relay never joins your meeting room. No Zoom bot, no Teams integration, no third-party attendee. Audio is captured at the system level &mdash; a local listener on your machine only.</p>
+          </div>
+          <div class="rounded-xl p-5 bg-navy-800/60 border border-white/5 text-center">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1.5">Zero-Retention &amp; Ephemeral</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Live transcripts and AI answers exist only in memory during your session &mdash; never written to disk. When your session ends, they're gone. Nothing is logged server-side.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing -->
-  <section id="pricing" class="py-20 md:py-28 border-t border-white/5">
+  <!-- ─── PRICING ──────────────────────────────────────── -->
+  <section id="pricing" class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-transparent to-navy-800/30">
     <div class="max-w-4xl mx-auto px-6">
       <div class="text-center mb-16 reveal">
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Simple, Transparent Pricing</h2>
@@ -564,7 +461,7 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto reveal-stagger">
         <!-- Free -->
-        <div class="card-glow p-8 reveal">
+        <div class="card p-8 reveal">
           <div class="mb-6">
             <h3 class="text-lg font-semibold text-white mb-1">Free Trial</h3>
             <div class="flex items-baseline gap-1">
@@ -572,30 +469,15 @@
             </div>
           </div>
           <ul class="space-y-3 mb-8">
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              10 min of live transcription per session
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              Full knowledge base access
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              All AI features included
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              No credit card required
-            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>10 min of live transcription per session</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Full knowledge base access</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>All AI features included</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>No credit card required</li>
           </ul>
-          <a href="#download" class="block w-full text-center py-3 rounded-xl border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white font-medium transition-all text-sm">
-            Download Free Trial
-          </a>
+          <a href="#download" class="block w-full text-center py-3 rounded-xl border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white font-medium transition-all text-sm">Download Free Trial</a>
         </div>
-
         <!-- Pro -->
-        <div class="card-glow pricing-pro p-8 reveal">
+        <div class="card pricing-pro p-8 reveal">
           <div class="mb-6">
             <div class="flex items-center gap-2 mb-1">
               <h3 class="text-lg font-semibold text-white">Relay Pro</h3>
@@ -608,42 +490,24 @@
             <p class="text-sm italic text-cyan-400/80 mt-2">"Earn back your entire monthly subscription in the first 10 minutes of your next call."</p>
           </div>
           <ul class="space-y-3 mb-8">
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              <span class="text-white font-medium">Unlimited</span>&nbsp;live call sessions
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              Full knowledge base access
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              GPT-powered AI answers
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              Priority support
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-300">
-              <svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-              2-device license
-            </li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white font-medium">Unlimited</span>&nbsp;live sessions</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Full knowledge base access</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>GPT-powered AI answers</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Priority support</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>2-device license</li>
           </ul>
-          <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="block w-full text-center py-3 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold transition-all hover:shadow-lg hover:shadow-accent/25 text-sm">
-            Get Relay Pro
-          </a>
+          <a href="https://relay-ai-pro.lemonsqueezy.com/checkout/buy/81796ba9-cbaa-4f3c-a28c-4fef60e1ec49" target="_blank" rel="noopener" class="block w-full text-center py-3 rounded-xl bg-accent hover:bg-blue-600 text-white font-semibold transition-all hover:shadow-lg hover:shadow-accent/25 text-sm">Get Relay Pro</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Download -->
-  <section id="download" class="py-20 md:py-28 border-t border-white/5 bg-gradient-to-b from-transparent to-navy-800/50">
+  <!-- ─── DOWNLOAD ─────────────────────────────────────── -->
+  <section id="download" class="py-20 md:py-28 border-t border-white/5">
     <div class="max-w-3xl mx-auto px-6 text-center">
       <div class="reveal">
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">Get Started in 60 Seconds</h2>
         <p class="text-slate-400 mb-10 max-w-lg mx-auto">Download Relay, add your API keys, upload your documents, and you're live on your next call.</p>
-
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
           <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-navy-900 font-semibold px-8 py-4 rounded-xl transition-all text-base">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
@@ -651,8 +515,6 @@
           </a>
         </div>
         <p class="text-sm text-slate-500 mb-12">macOS coming soon</p>
-
-        <!-- Setup steps -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
           <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
             <div class="text-2xl font-bold text-accent mb-1 font-mono">1</div>
@@ -660,7 +522,7 @@
           </div>
           <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
             <div class="text-2xl font-bold text-accent mb-1 font-mono">2</div>
-            <p class="text-xs text-slate-400">Add your API keys</p>
+            <p class="text-xs text-slate-400">Add your OpenAI &amp; Deepgram API keys</p>
           </div>
           <div class="p-4 rounded-xl bg-navy-800/50 border border-white/5">
             <div class="text-2xl font-bold text-accent mb-1 font-mono">3</div>
@@ -675,20 +537,25 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- ─── COMPLIANCE NOTE ──────────────────────────────── -->
+  <section class="py-10 border-t border-white/5">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <p class="text-sm text-slate-500 leading-relaxed">Relay is a personal productivity tool that runs on your local machine. Users are responsible for ensuring their use of Relay complies with all applicable agreements, organizational policies, and recording consent laws in their jurisdiction.</p>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ───────────────────────────────────────── -->
   <footer class="py-12 border-t border-white/5">
     <div class="max-w-6xl mx-auto px-6">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="flex flex-col items-center md:items-start gap-2">
           <div class="flex items-center gap-2.5">
             <div class="w-7 h-7 rounded-lg bg-accent flex items-center justify-center">
-              <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
+              <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <span class="text-white font-semibold tracking-tight">Relay</span>
           </div>
-          <p class="text-xs text-slate-500">Never drop a thread. Precision intelligence, on demand.</p>
+          <p class="text-xs text-slate-500">Precision intelligence, on demand.</p>
         </div>
         <div class="flex items-center gap-6 text-sm text-slate-500">
           <a href="#" class="hover:text-slate-300 transition-colors">Privacy Policy</a>
@@ -703,43 +570,28 @@
   </footer>
 
   <script>
-    // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Mobile menu toggle
     document.getElementById('menu-toggle').addEventListener('click', () => {
       document.getElementById('mobile-menu').classList.toggle('open');
     });
-
-    // Close mobile menu on link click
     document.querySelectorAll('#mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.remove('open');
-      });
+      link.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
     });
 
-    // Active nav highlight on scroll
     const sections = document.querySelectorAll('section[id]');
     window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY + 100;
-      sections.forEach(section => {
-        const id = section.getAttribute('id');
-        const link = document.querySelector(`nav a[href="#${id}"]`);
+      const y = window.scrollY + 100;
+      sections.forEach(s => {
+        const link = document.querySelector(`nav a[href="#${s.id}"]`);
         if (link) {
-          if (scrollY >= section.offsetTop && scrollY < section.offsetTop + section.offsetHeight) {
-            link.classList.add('text-white');
-            link.classList.remove('text-slate-400');
+          if (y >= s.offsetTop && y < s.offsetTop + s.offsetHeight) {
+            link.classList.add('text-white'); link.classList.remove('text-slate-400');
           } else {
-            link.classList.remove('text-white');
-            link.classList.add('text-slate-400');
+            link.classList.remove('text-white'); link.classList.add('text-slate-400');
           }
         }
       });
