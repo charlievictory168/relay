@@ -271,15 +271,11 @@
               <div class="space-y-3 font-mono text-sm">
                 <div class="flex gap-2">
                   <span class="text-accent font-medium shrink-0">Client:</span>
-                  <span class="text-slate-300">"What's the current regulatory landscape for gene therapy in the EU?"</span>
-                </div>
-                <div class="flex gap-2">
-                  <span class="text-emerald-400 font-medium shrink-0">You:</span>
-                  <span class="text-slate-400">"Great question. The EMA updated their..."</span>
+                  <span class="text-slate-300">"How do you see the AI accelerator market evolving beyond Nvidia's current dominance with the B200?"</span>
                 </div>
                 <div class="flex gap-2">
                   <span class="text-accent font-medium shrink-0">Client:</span>
-                  <span class="text-slate-300">"How does the ATMP framework compare to FDA's approach?"</span>
+                  <span class="text-slate-300">"And more specifically, what is the primary supply chain bottleneck for these hyperscaler custom silicon projects right now?"</span>
                 </div>
                 <div class="h-px bg-white/5 my-2"></div>
                 <div class="flex items-center gap-2 text-slate-500 text-xs">
@@ -302,19 +298,19 @@
               <div class="space-y-3 text-sm">
                 <div class="p-3 rounded-lg bg-accent/5 border border-accent/10">
                   <p class="text-white font-medium mb-1.5">Bottom Line:</p>
-                  <p class="text-slate-300 leading-relaxed">The ATMP framework is more centralized than FDA's approach. EMA requires a single Committee review, while FDA splits oversight across CBER and CDER.</p>
+                  <p class="text-slate-300 leading-relaxed">Advanced packaging (TSMC's CoWoS) and High Bandwidth Memory (HBM3e) yields are the primary bottlenecks, not traditional wafer fab capacity. Lead times for CoWoS currently remain stretched at 10&ndash;12 months.</p>
                 </div>
                 <div class="text-slate-400 leading-relaxed">
-                  <p class="mb-2"><span class="text-slate-300 font-medium">Key differences:</span></p>
+                  <p class="mb-2"><span class="text-slate-300 font-medium">Key constraints:</span></p>
                   <ul class="space-y-1.5 ml-3">
-                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> EMA's CAT committee provides unified assessment</li>
-                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> FDA has separate pathways for biologics vs. devices</li>
-                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> EU conditional approval timeline: ~150 days</li>
+                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> <span><span class="text-slate-300">CoWoS Capacity:</span> TSMC capacity projected to reach ~400k wafers/yr by late 2025, but demand still outpaces supply by 20%.</span></li>
+                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> <span><span class="text-slate-300">HBM3e Yields:</span> Memory supply constrained by complex 8-Hi/12-Hi stacking yields (currently est. 65&ndash;70%) among top suppliers like SK Hynix.</span></li>
+                    <li class="flex gap-2"><span class="text-accent mt-1">&#8226;</span> <span><span class="text-slate-300">Allocation Wars:</span> Hyperscaler ASICs (Google TPU, AWS Trainium) competing directly with Nvidia for this exact same packaging capacity.</span></li>
                   </ul>
                 </div>
                 <div class="flex items-center gap-1.5 text-[11px] text-slate-500 pt-1">
                   <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                  Source: EU_Gene_Therapy_Regulatory_2025.pdf &mdash; p.47
+                  Source: Global_Semi_Supply_Chain_2025_Q1.pdf &mdash; p.14
                 </div>
               </div>
             </div>
@@ -491,8 +487,8 @@
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <div>
-                  <span class="text-white font-medium text-sm">Conversation History</span>
-                  <p class="text-slate-400 text-xs mt-0.5">Transcripts stay on your machine</p>
+                  <span class="text-white font-medium text-sm">Zero-Retention &amp; Ephemeral by Design</span>
+                  <p class="text-slate-400 text-xs mt-0.5">Relay does not save any conversation history. Transcripts exist strictly in your computer's temporary RAM during the active session. The moment you close the app or end the call, all audio and text data are permanently destroyed. Nothing is logged server-side.</p>
                 </div>
               </li>
               <li class="flex items-start gap-3">
