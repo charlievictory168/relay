@@ -117,22 +117,17 @@
         </div>
       </div>
 
-      <!-- Hero product video -->
+      <!-- Hero product video (animated React prototype) -->
       <div class="max-w-5xl mx-auto reveal">
-        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 bg-slate-900">
-          <video
-            class="block w-full h-auto"
-            src="./demo.mp4"
-            poster="./demo-poster.jpg"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            aria-label="Relay demo: live transcript and AI answer during a consulting call"
-          ></video>
+        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40" style="aspect-ratio: 1200 / 820; background: #05080f;">
+          <iframe
+            src="./hero-video.html"
+            title="Relay demo: live transcript and AI answer during a consulting call"
+            loading="eager"
+            scrolling="no"
+            style="width: 100%; height: 100%; border: 0; display: block;"
+          ></iframe>
         </div>
-        <p class="text-center text-xs text-slate-500 mt-4">Example: Pre-sales engineer fielding technical questions on a semiconductor client call</p>
       </div>
     </div>
   </section>

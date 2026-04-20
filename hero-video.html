@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Relay — Hero Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-outer: #0a1120;
+    --bg-window: #111827;
+    --bg-app: #0f172a;
+    --bg-panel: #0b1424;
+    --bg-panel-2: #131f33;
+    --bg-titlebar: #f3f4f6;
+    --bg-menubar: #ffffff;
+    --border: #1f2b40;
+    --border-soft: #1a2538;
+    --text: #e6ecf5;
+    --text-dim: #8b97ac;
+    --text-dimmer: #5b6679;
+    --text-menu: #1f2937;
+    --blue: #3b82f6;
+    --blue-soft: #60a5fa;
+    --green: #22c55e;
+    --green-hover: #16a34a;
+    --red: #ef4444;
+    --yellow: #d4b948;
+    --pill-bg: #2a3447;
+    --pill-listen-bg: #14532d;
+    --pill-listen-fg: #4ade80;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    overflow: hidden;
+    height: 100%;
+  }
+  #root { width: 100vw; height: 100vh; display: grid; place-items: center; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Production React UMD (not dev) — ~40KB gzipped total, vs ~2.6MB for dev builds -->
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+/* ============================================================
+ * CONFIG — fixed for production landing page
+ * ============================================================ */
+const TWEAKS = {
+  pacing: "default",
+  streamStyle: "chunk",
+  showCaption: true,
+  showChrome: true,
+  showScrubber: false,
+};
+
+/* ============================================================
+ * CONTENT — the scenario
+ * ============================================================ */
+const TRANSCRIPT_LINES = [
+  { speaker: "Client", text: "What's driving the current bottleneck in advanced packaging capacity?" },
+  { speaker: "Client", text: "How are IDMs responding compared with pure-play foundries?" },
+];
+
+const BLUF_ANSWER =
+  "The bottleneck is driven primarily by AI accelerator demand, especially CoWoS capacity and related substrate/packaging constraints. IDMs are adding internal capability, while pure-play foundries are scaling faster through dedicated advanced packaging expansion.";
+
+const KEY_POINTS = [
+  "AI GPUs and custom accelerators are consuming advanced packaging capacity faster than supply can expand.",
+  "Tightest constraints are not just wafer starts, but CoWoS packaging flow, substrate availability, and yield ramp.",
+  "IDMs investing to reduce dependence on external partners; pure-plays responding by expanding packaging capacity and deepening ecosystem coordination.",
+];
+
+const SOURCE = "Global_Semi_Supply_Chain_2025_Q1.pdf — p.14";
+
+/* ============================================================
+ * TIMELINE (in seconds) — drives the whole animation
+ * ============================================================ */
+const PACING = {
+  calm:    { scale: 1.25, totalBase: 13 },
+  default: { scale: 1.00, totalBase: 13 },
+  snappy:  { scale: 0.78, totalBase: 13 },
+};
+
+function buildTimeline(pacing) {
+  const s = PACING[pacing].scale;
+  const t = {
+    idleUntil:    0.6 * s,
+    clickAt:      0.7 * s,
+    listeningAt:  0.9 * s,
+    line1Start:   1.3 * s,
+    line1End:     3.3 * s,
+    line2Start:   3.7 * s,
+    line2End:     5.8 * s,
+    questionDetected: 5.9 * s,
+    answerStart:  6.3 * s,
+    answerEnd:    9.9 * s,
+    keyPointsStart: 10.0 * s,
+    keyPointsEnd:   11.4 * s,
+    sourceAt:     11.6 * s,
+    holdUntil:    12.9 * s,
+    total:        13.0 * s,
+  };
+  return t;
+}
+
+/* ============================================================
+ * HELPERS
+ * ============================================================ */
+const lerp = (a, b, t) => a + (b - a) * t;
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const ease = (t) => t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t);
+const seg = (time, start, end) => clamp((time - start) / Math.max(0.0001, end - start), 0, 1);
+
+function streamingSlice(fullText, progress, style) {
+  if (style === "all") return progress > 0.3 ? fullText : "";
+  if (style === "chunk") {
+    const parts = fullText.split(/(?<=[.])\s+/);
+    const n = Math.floor(progress * parts.length + 0.0001);
+    return parts.slice(0, Math.min(parts.length, n + (progress >= 0.999 ? 0 : 0))).join(" ");
+  }
+  const words = fullText.split(/(\s+)/);
+  const totalWords = words.filter(w => w.trim().length > 0).length;
+  const target = Math.floor(progress * totalWords);
+  let shown = 0; let out = "";
+  for (const w of words) {
+    if (w.trim().length === 0) { out += w; continue; }
+    if (shown >= target) break;
+    out += w; shown++;
+  }
+  return out;
+}
+
+function typewriterSlice(fullText, progress) {
+  const n = Math.floor(progress * fullText.length);
+  return fullText.slice(0, n);
+}
+
+/* ============================================================
+ * UI PIECES
+ * ============================================================ */
+
+function WindowChrome({ show }) {
+  if (!show) return null;
+  return (
+    <>
+      <div style={{
+        height: 28,
+        background: 'linear-gradient(#fafafa, #efefef)',
+        borderBottom: '1px solid #e5e7eb',
+        display: 'flex', alignItems: 'center',
+        padding: '0 10px',
+        color: '#1f2937',
+        fontSize: 12,
+        userSelect: 'none',
+        fontWeight: 500,
+      }}>
+        <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#1f2937', marginRight: 8, display: 'grid', placeItems: 'center' }}>
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+        </div>
+        <span style={{ fontSize: 12, color: '#111827' }}>Relay 1.4.3</span>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 0 }}>
+          <WinBtn kind="min" />
+          <WinBtn kind="max" />
+          <WinBtn kind="close" />
+        </div>
+      </div>
+      <div style={{
+        height: 26,
+        background: '#ffffff',
+        borderBottom: '1px solid #e5e7eb',
+        display: 'flex', alignItems: 'center',
+        padding: '0 10px',
+        gap: 16,
+        color: '#1f2937',
+        fontSize: 12,
+        userSelect: 'none',
+      }}>
+        {['File','Edit','View','Window','Help'].map(m => (
+          <span key={m} style={{ cursor: 'default' }}>{m}</span>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function WinBtn({ kind }) {
+  const common = { width: 32, height: 28, display: 'grid', placeItems: 'center', color: '#374151' };
+  if (kind === 'min') return <div style={common}><svg width="10" height="10" viewBox="0 0 10 10"><path d="M0 5 L10 5" stroke="#374151" strokeWidth="1"/></svg></div>;
+  if (kind === 'max') return <div style={common}><svg width="10" height="10" viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" stroke="#374151" strokeWidth="1" fill="none"/></svg></div>;
+  return <div style={{...common, color: '#374151'}}><svg width="10" height="10" viewBox="0 0 10 10"><path d="M0 0 L10 10 M10 0 L0 10" stroke="#374151" strokeWidth="1"/></svg></div>;
+}
+
+function Header() {
+  return (
+    <div style={{
+      padding: '18px 24px 16px',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+      borderBottom: '1px solid var(--border-soft)',
+    }}>
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: '#fff', letterSpacing: -0.2 }}>Relay</div>
+        <div style={{ fontSize: 12.5, color: 'var(--text-dim)', marginTop: 3 }}>Never drop a thread. Precision intelligence, on demand.</div>
+      </div>
+      <div style={{ fontSize: 11.5, color: 'var(--text-dimmer)' }}>1 doc indexed</div>
+    </div>
+  );
+}
+
+function Tabs() {
+  const tabs = ['Documents', 'Ask', 'Live Call', 'Settings'];
+  return (
+    <div style={{
+      display: 'flex', gap: 0,
+      padding: '0 24px',
+      borderBottom: '1px solid var(--border-soft)',
+      background: 'var(--bg-app)',
+    }}>
+      {tabs.map(t => {
+        const active = t === 'Live Call';
+        return (
+          <div key={t} style={{
+            padding: '12px 14px 11px',
+            fontSize: 13,
+            fontWeight: active ? 600 : 500,
+            color: active ? 'var(--blue-soft)' : 'var(--text-dim)',
+            borderBottom: active ? '2px solid var(--blue)' : '2px solid transparent',
+            marginBottom: -1,
+            cursor: 'default',
+          }}>{t}</div>
+        );
+      })}
+    </div>
+  );
+}
+
+function StatusPill({ listening }) {
+  const bg = listening ? 'rgba(34,197,94,0.15)' : 'var(--pill-bg)';
+  const fg = listening ? '#4ade80' : '#9aa5b8';
+  const border = listening ? 'rgba(34,197,94,0.35)' : 'transparent';
+  return (
+    <div style={{
+      padding: '3px 10px',
+      borderRadius: 999,
+      background: bg,
+      color: fg,
+      border: `1px solid ${border}`,
+      fontSize: 11.5,
+      fontWeight: 500,
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      transition: 'all 300ms ease',
+    }}>
+      {listening && (
+        <span style={{
+          width: 6, height: 6, borderRadius: '50%',
+          background: '#4ade82',
+          boxShadow: '0 0 0 0 rgba(74,222,128,0.6)',
+          animation: 'relayPulse 1.4s ease-out infinite',
+        }} />
+      )}
+      {listening ? 'Listening' : 'Stopped'}
+    </div>
+  );
+}
+
+function ActionButton({ listening, pressed }) {
+  const style = listening
+    ? { background: '#ef4444', color: '#fff' }
+    : { background: '#22c55e', color: '#04110a' };
+  return (
+    <div style={{
+      ...style,
+      padding: '8px 16px',
+      borderRadius: 6,
+      fontSize: 13,
+      fontWeight: 600,
+      display: 'inline-flex',
+      alignItems: 'center',
+      transform: pressed ? 'scale(0.96)' : 'scale(1)',
+      transition: 'background 260ms ease, color 260ms ease, transform 120ms ease',
+      boxShadow: listening ? '0 0 0 3px rgba(239,68,68,0.15)' : '0 1px 0 rgba(0,0,0,0.25)',
+      cursor: 'default',
+      userSelect: 'none',
+    }}>
+      {listening ? 'Stop Listening' : 'Start Listening'}
+    </div>
+  );
+}
+
+function TranscriptPanel({ listening, transcribing, lines }) {
+  const empty = lines.length === 0;
+  return (
+    <div style={{
+      flex: 1,
+      background: 'var(--bg-panel)',
+      border: '1px solid var(--border-soft)',
+      borderRadius: 8,
+      padding: empty ? 0 : '16px 18px 18px',
+      minHeight: 340,
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {empty ? (
+        <div style={{
+          flex: 1, display: 'grid', placeItems: 'center',
+          color: 'var(--text-dimmer)', fontSize: 13,
+        }}>
+          {listening ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--text-dim)' }}>
+              <ListeningBars />
+              <span style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: 12 }}>Listening…</span>
+            </div>
+          ) : (
+            <span>Click "Start Listening" to begin</span>
+          )}
+        </div>
+      ) : (
+        <>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {lines.map((line, i) => (
+              <TranscriptLine key={i} line={line} isLast={i === lines.length - 1 && transcribing} />
+            ))}
+          </div>
+          {transcribing && lines.length > 0 && lines[lines.length - 1].done && (
+            <div style={{
+              marginTop: 18,
+              display: 'flex', alignItems: 'center', gap: 8,
+              color: 'var(--text-dimmer)',
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: 12,
+            }}>
+              <ListeningBars small />
+              Transcribing…
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function TranscriptLine({ line, isLast }) {
+  return (
+    <div style={{
+      display: 'flex',
+      gap: 8,
+      fontFamily: "'JetBrains Mono', ui-monospace, SFMono-Regular, monospace",
+      fontSize: 13.2,
+      lineHeight: 1.55,
+      alignItems: 'flex-start',
+    }}>
+      <span style={{ color: 'var(--blue-soft)', fontWeight: 500, flexShrink: 0 }}>{line.speaker}:</span>
+      <span style={{ color: '#cfd6e3', whiteSpace: 'pre-wrap' }}>
+        {'"'}{line.shown}{'"'}
+        {isLast && !line.done && (
+          <span style={{
+            display: 'inline-block',
+            width: 7, height: 14,
+            background: '#60a5fa',
+            marginLeft: 2,
+            verticalAlign: 'text-bottom',
+            animation: 'relayCaret 0.9s step-end infinite',
+          }} />
+        )}
+      </span>
+    </div>
+  );
+}
+
+function ListeningBars({ small }) {
+  const h = small ? 10 : 12;
+  const w = small ? 2 : 2.5;
+  return (
+    <div style={{ display: 'inline-flex', gap: 2, alignItems: 'center' }}>
+      {[0,1,2].map(i => (
+        <span key={i} style={{
+          display: 'inline-block',
+          width: w, height: h,
+          background: '#60a5fa',
+          borderRadius: 1,
+          animation: `relayBars 0.9s ease-in-out ${i * 0.12}s infinite`,
+        }} />
+      ))}
+    </div>
+  );
+}
+
+function AnswerPanel({ phase, answerText, keyPointsVisible, sourceVisible, streamStyle }) {
+  const thinking = phase === 'thinking';
+  const empty = phase === 'idle';
+  return (
+    <div style={{
+      flex: 1,
+      background: 'var(--bg-panel)',
+      border: '1px solid var(--border-soft)',
+      borderRadius: 8,
+      padding: empty ? 0 : '18px 20px 20px',
+      minHeight: 340,
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {empty && (
+        <div style={{ height: '100%', display: 'grid', placeItems: 'center', color: 'var(--text-dimmer)', fontSize: 13, padding: 20, textAlign: 'center' }}>
+          AI answers will appear here when questions are detected
+        </div>
+      )}
+      {thinking && (
+        <div style={{ height: '100%', display: 'grid', placeItems: 'center', color: 'var(--text-dim)', fontSize: 12.5, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <ThinkingDots />
+            <span>Retrieving from knowledge base…</span>
+          </div>
+        </div>
+      )}
+      {phase === 'answering' && (
+        <>
+          <div style={{
+            paddingLeft: 14,
+            borderLeft: '3px solid var(--blue)',
+            color: '#e8edf5',
+            fontSize: 13.5,
+            lineHeight: 1.55,
+            fontWeight: 600,
+            letterSpacing: -0.1,
+            marginBottom: 20,
+            minHeight: 60,
+          }}>
+            {answerText}
+            {answerText.length < BLUF_ANSWER.length && (
+              <span style={{
+                display: 'inline-block', width: 7, height: 14,
+                background: '#e8edf5', marginLeft: 2,
+                verticalAlign: 'text-bottom',
+                animation: 'relayCaret 0.9s step-end infinite',
+              }} />
+            )}
+          </div>
+
+          {(keyPointsVisible > 0) && (
+            <>
+              <div style={{ color: '#cfd6e3', fontSize: 12.5, fontWeight: 600, marginBottom: 10 }}>Key points:</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+                {KEY_POINTS.map((p, i) => (
+                  <KeyPoint key={i} text={p} visible={i < keyPointsVisible} />
+                ))}
+              </div>
+            </>
+          )}
+
+          {sourceVisible && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              color: 'var(--text-dimmer)',
+              fontSize: 11.5,
+              animation: 'relayFadeUp 400ms ease forwards',
+            }}>
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                <path d="M4 2h6l3 3v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1" fill="none"/>
+                <path d="M10 2v3h3" stroke="currentColor" strokeWidth="1"/>
+              </svg>
+              <span>Source: {SOURCE}</span>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function KeyPoint({ text, visible }) {
+  return (
+    <div style={{
+      display: 'flex', gap: 10,
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(6px)',
+      transition: 'opacity 360ms ease, transform 360ms ease',
+    }}>
+      <span style={{
+        width: 5, height: 5, borderRadius: '50%',
+        background: '#60a5fa', marginTop: 7, flexShrink: 0,
+      }}/>
+      <span style={{ fontSize: 12.5, color: '#b7c0d1', lineHeight: 1.5 }}>{text}</span>
+    </div>
+  );
+}
+
+function ThinkingDots() {
+  return (
+    <span style={{ display: 'inline-flex', gap: 4 }}>
+      {[0,1,2].map(i => (
+        <span key={i} style={{
+          width: 4, height: 4, borderRadius: '50%',
+          background: '#60a5fa',
+          animation: `relayDot 1.2s ease-in-out ${i * 0.15}s infinite`,
+        }}/>
+      ))}
+    </span>
+  );
+}
+
+function BlufBadge({ visible }) {
+  return (
+    <div style={{
+      padding: '2px 8px',
+      borderRadius: 4,
+      background: 'rgba(212,185,72,0.15)',
+      color: '#d4b948',
+      fontSize: 10.5,
+      fontWeight: 700,
+      letterSpacing: 0.6,
+      border: '1px solid rgba(212,185,72,0.3)',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'scale(1)' : 'scale(0.9)',
+      transition: 'all 280ms ease',
+    }}>BLUF</div>
+  );
+}
+
+function LiveCallBar({ listening, pressed, questionsDetected }) {
+  return (
+    <div style={{
+      padding: '16px 24px 14px',
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    }}>
+      <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', letterSpacing: -0.1 }}>Live Call Assistant</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ fontSize: 11.5, color: 'var(--text-dim)', transition: 'color 220ms ease' }}>
+          {questionsDetected} questions detected
+        </span>
+        <StatusPill listening={listening} />
+        <ActionButton listening={listening} pressed={pressed} />
+      </div>
+    </div>
+  );
+}
+
+function PanelsHeader({ utterances, showAnswersHeader }) {
+  return (
+    <div style={{
+      display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16,
+      padding: '0 24px 10px',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#cfd6e3' }}>Live Transcript</div>
+        <div style={{ fontSize: 11, color: 'var(--text-dimmer)' }}>{utterances} utterances</div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#cfd6e3' }}>AI Answers</div>
+          {showAnswersHeader && <BlufBadge visible={true} />}
+        </div>
+        <div style={{ fontSize: 11, color: 'var(--text-dimmer)' }}>Model: gpt-5.4-mini</div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+ * MAIN APP WINDOW
+ * ============================================================ */
+function RelayApp({ time, tweaks }) {
+  const T = buildTimeline(tweaks.pacing);
+
+  const listening = time >= T.listeningAt;
+  const pressed = time >= T.clickAt && time < T.clickAt + 0.15;
+
+  const line1Prog = seg(time, T.line1Start, T.line1End);
+  const line2Prog = seg(time, T.line2Start, T.line2End);
+
+  const lines = [];
+  if (line1Prog > 0) {
+    lines.push({
+      speaker: TRANSCRIPT_LINES[0].speaker,
+      shown: typewriterSlice(TRANSCRIPT_LINES[0].text, line1Prog),
+      done: line1Prog >= 1,
+    });
+  }
+  if (line2Prog > 0) {
+    lines.push({
+      speaker: TRANSCRIPT_LINES[1].speaker,
+      shown: typewriterSlice(TRANSCRIPT_LINES[1].text, line2Prog),
+      done: line2Prog >= 1,
+    });
+  }
+
+  const transcribing = listening && time < T.questionDetected;
+  const questionsDetected = time >= T.questionDetected ? (time >= T.line2End ? 2 : 1) : 0;
+
+  let answerPhase = 'idle';
+  if (listening && time < T.questionDetected) answerPhase = 'idle';
+  if (time >= T.questionDetected && time < T.answerStart) answerPhase = 'thinking';
+  if (time >= T.answerStart) answerPhase = 'answering';
+
+  const answerProg = seg(time, T.answerStart, T.answerEnd);
+  const answerText = answerPhase === 'answering'
+    ? streamingSlice(BLUF_ANSWER, answerProg, tweaks.streamStyle)
+    : '';
+
+  const kpProg = seg(time, T.keyPointsStart, T.keyPointsEnd);
+  const keyPointsVisible = Math.floor(kpProg * KEY_POINTS.length + 0.0001);
+  const keyPointsAll = kpProg >= 1 ? KEY_POINTS.length : keyPointsVisible;
+
+  const sourceVisible = time >= T.sourceAt;
+  const utterances = lines.filter(l => l.done).length;
+
+  return (
+    <div style={{
+      width: 1000,
+      height: 720,
+      background: '#111827',
+      borderRadius: 8,
+      overflow: 'hidden',
+      boxShadow: '0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04)',
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative',
+    }}>
+      <WindowChrome show={tweaks.showChrome} />
+
+      <div style={{
+        flex: 1,
+        background: 'var(--bg-app)',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: 0,
+      }}>
+        <Header />
+        <Tabs />
+        <LiveCallBar listening={listening} pressed={pressed} questionsDetected={questionsDetected} />
+        <PanelsHeader utterances={utterances} showAnswersHeader={time >= T.sourceAt} />
+
+        <div style={{
+          flex: 1,
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 16,
+          padding: '0 24px 24px',
+          minHeight: 0,
+        }}>
+          <TranscriptPanel listening={listening} transcribing={transcribing} lines={lines} />
+          <AnswerPanel
+            phase={answerPhase}
+            answerText={answerText}
+            keyPointsVisible={keyPointsAll}
+            sourceVisible={sourceVisible}
+            streamStyle={tweaks.streamStyle}
+          />
+        </div>
+      </div>
+
+      <AnimatedCursor time={time} T={T} />
+    </div>
+  );
+}
+
+function AnimatedCursor({ time, T }) {
+  const flyIn = seg(time, T.clickAt - 0.55, T.clickAt);
+  const press = time >= T.clickAt && time < T.clickAt + 0.15;
+  const fadeOut = seg(time, T.clickAt + 0.35, T.clickAt + 0.8);
+
+  if (time < T.clickAt - 0.6 || time > T.clickAt + 1.2) return null;
+
+  const targetX = 900;
+  const targetY = 220;
+  const startX = targetX - 120;
+  const startY = targetY + 90;
+
+  const x = lerp(startX, targetX, ease(flyIn));
+  const y = lerp(startY, targetY, ease(flyIn));
+
+  const scale = press ? 0.88 : 1;
+  const opacity = 1 - fadeOut;
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: x, top: y,
+      width: 24, height: 24,
+      pointerEvents: 'none',
+      transform: `scale(${scale})`,
+      transformOrigin: '0 0',
+      opacity,
+      transition: 'transform 80ms ease',
+      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))',
+    }}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M3 2 L3 18 L7.5 14 L10.5 20.5 L13 19.5 L10 13 L15.5 13 Z" fill="#fff" stroke="#111827" strokeWidth="1.2"/>
+      </svg>
+      {press && (
+        <div style={{
+          position: 'absolute',
+          left: -6, top: -6,
+          width: 28, height: 28,
+          borderRadius: '50%',
+          border: '2px solid rgba(34,197,94,0.6)',
+          animation: 'relayRipple 500ms ease-out forwards',
+        }}/>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+ * FRAME (letterbox + caption)
+ * ============================================================ */
+function HeroFrame({ children, tweaks }) {
+  const baseW = 1200;
+  const baseH = tweaks.showCaption ? 820 : 780;
+  const [scale, setScale] = React.useState(1);
+
+  React.useEffect(() => {
+    const fit = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const s = Math.min(vw / baseW, vh / baseH, 1);
+      setScale(s);
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, [baseW, baseH]);
+
+  return (
+    <div style={{
+      width: baseW, height: baseH,
+      transform: `scale(${scale})`,
+      transformOrigin: 'center center',
+      background: 'radial-gradient(ellipse at 50% 30%, #0c1424 0%, #05080f 75%)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 40,
+      position: 'relative',
+    }}>
+      <div style={{ flexShrink: 0 }}>{children}</div>
+      {tweaks.showCaption && (
+        <div style={{
+          marginTop: 22,
+          fontSize: 13.5,
+          color: '#7e899e',
+          fontWeight: 400,
+          letterSpacing: 0.1,
+        }}>
+          Example: Pre-sales engineer fielding technical questions on a semiconductor client call
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+ * ROOT — simplified for production (no tweaks panel, no scrubber, no edit-mode protocol)
+ * ============================================================ */
+function App() {
+  const [time, setTime] = React.useState(0);
+  const T = buildTimeline(TWEAKS.pacing);
+
+  React.useEffect(() => {
+    let raf; let last = performance.now();
+    const tick = (now) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      setTime(t => {
+        let nt = t + dt;
+        if (nt >= T.total) nt = 0;
+        return nt;
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [T.total]);
+
+  return (
+    <HeroFrame tweaks={TWEAKS}>
+      <RelayApp time={time} tweaks={TWEAKS} />
+    </HeroFrame>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+<style>
+  @keyframes relayCaret {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  @keyframes relayBars {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes relayDot {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes relayPulse {
+    0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.55); }
+    70% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+    100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+  }
+  @keyframes relayRipple {
+    0% { transform: scale(0.6); opacity: 0.9; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+  @keyframes relayFadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</body>
+</html>
