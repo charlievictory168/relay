@@ -41,7 +41,7 @@
     overflow: hidden;
     height: 100%;
   }
-  #root { width: 100vw; height: 100vh; display: grid; place-items: center; }
+  #root { width: 100vw; height: 100vh; overflow: hidden; }
 </style>
 </head>
 <body>
@@ -714,49 +714,67 @@ function AnimatedCursor({ time, T }) {
 
 /* ============================================================
  * FRAME (letterbox + caption)
+ *
+ * Responsive layout: the outer frame fills the iframe viewport (100vw x 100vh),
+ * and the inner app+caption group is transform-scaled to fit. This avoids the
+ * previous bug where a fixed 1200x820 HeroFrame overflowed narrower iframes
+ * and got shifted asymmetrically by the browser's scrollbar reservation.
  * ============================================================ */
 function HeroFrame({ children, tweaks }) {
-  const baseW = 1200;
-  const baseH = tweaks.showCaption ? 820 : 780;
+  // "Design canvas" dimensions — the app plus its own padding + caption slot.
+  // We scale this canvas to fit the viewport while preserving aspect ratio.
+  const canvasW = 1080;  // 1000 app + 40 pad each side
+  const canvasH = tweaks.showCaption ? 840 : 800;  // 720 app + 40 pad each side + caption gap/height
   const [scale, setScale] = React.useState(1);
 
   React.useEffect(() => {
     const fit = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const s = Math.min(vw / baseW, vh / baseH, 1);
+      const s = Math.min(vw / canvasW, vh / canvasH, 1);
       setScale(s);
     };
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
-  }, [baseW, baseH]);
+  }, [canvasW, canvasH]);
 
   return (
     <div style={{
-      width: baseW, height: baseH,
-      transform: `scale(${scale})`,
-      transformOrigin: 'center center',
+      width: '100vw',
+      height: '100vh',
       background: 'radial-gradient(ellipse at 50% 30%, #0c1424 0%, #05080f 75%)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 40,
+      overflow: 'hidden',
       position: 'relative',
     }}>
-      <div style={{ flexShrink: 0 }}>{children}</div>
-      {tweaks.showCaption && (
-        <div style={{
-          marginTop: 22,
-          fontSize: 13.5,
-          color: '#7e899e',
-          fontWeight: 400,
-          letterSpacing: 0.1,
-        }}>
-          Example: Pre-sales engineer fielding technical questions on a semiconductor client call
-        </div>
-      )}
+      <div style={{
+        width: canvasW,
+        height: canvasH,
+        transform: `scale(${scale})`,
+        transformOrigin: 'center center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        <div style={{ flexShrink: 0 }}>{children}</div>
+        {tweaks.showCaption && (
+          <div style={{
+            marginTop: 22,
+            fontSize: 13.5,
+            color: '#7e899e',
+            fontWeight: 400,
+            letterSpacing: 0.1,
+          }}>
+            Example: Pre-sales engineer fielding technical questions on a semiconductor client call
+          </div>
+        )}
+      </div>
     </div>
   );
 }
