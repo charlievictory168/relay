@@ -170,16 +170,25 @@
     <div class="max-w-6xl mx-auto px-6">
       <div class="text-center mb-16 reveal">
         <h2 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">How Relay Works</h2>
-        <p class="text-slate-400 max-w-lg mx-auto">Three steps from install to live answers.</p>
+        <p class="text-slate-400 max-w-lg mx-auto">Four steps from install to live answers.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative reveal-stagger">
-        <div class="hidden md:block absolute top-16 left-[calc(16.67%+24px)] w-[calc(33.33%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
-        <div class="hidden md:block absolute top-16 left-[calc(50%+24px)] w-[calc(33.33%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative reveal-stagger">
+        <div class="hidden md:block absolute top-16 left-[calc(12.5%+24px)] w-[calc(25%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
+        <div class="hidden md:block absolute top-16 left-[calc(37.5%+24px)] w-[calc(25%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
+        <div class="hidden md:block absolute top-16 left-[calc(62.5%+24px)] w-[calc(25%-48px)] h-px bg-gradient-to-r from-accent/40 to-accent/10"></div>
+        <div class="text-center reveal">
+          <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/></svg>
+          </div>
+          <div class="text-xs font-mono text-accent mb-2">Step 01</div>
+          <h3 class="text-lg font-semibold text-white mb-3">Install &amp; Connect</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Download Relay for Windows (free trial, no credit card &mdash; 10&nbsp;min of live transcription per session). Add your own OpenAI and Deepgram API keys in Settings. Keys stay on your machine, and you pay the providers directly at list price. <span class="text-slate-300">No markup, no middleman.</span></p>
+        </div>
         <div class="text-center reveal">
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
           </div>
-          <div class="text-xs font-mono text-accent mb-2">Step 01</div>
+          <div class="text-xs font-mono text-accent mb-2">Step 02</div>
           <h3 class="text-lg font-semibold text-white mb-3">Upload Your Knowledge</h3>
           <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed, chunked, and embedded into a local vector database. Your data never leaves your machine.</p>
         </div>
@@ -187,7 +196,7 @@
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
           </div>
-          <div class="text-xs font-mono text-accent mb-2">Step 02</div>
+          <div class="text-xs font-mono text-accent mb-2">Step 03</div>
           <h3 class="text-lg font-semibold text-white mb-3">Start Your Call</h3>
           <p class="text-slate-400 text-sm leading-relaxed">Relay captures system audio locally &mdash; no plugins, no meeting bots, no API connections to your conferencing app. Works with Zoom, Teams, Meet, phone, any platform.</p>
         </div>
@@ -195,7 +204,7 @@
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg>
           </div>
-          <div class="text-xs font-mono text-accent mb-2">Step 03</div>
+          <div class="text-xs font-mono text-accent mb-2">Step 04</div>
           <h3 class="text-lg font-semibold text-white mb-3">Get Real-Time AI Answers</h3>
           <p class="text-slate-400 text-sm leading-relaxed">As questions come up, AI-generated answers appear instantly, grounded in YOUR uploaded documents. Conclusion-first (BLUF format) so you can glance and respond with confidence.</p>
         </div>
