@@ -192,7 +192,7 @@
           </div>
           <div class="text-xs font-mono text-accent mb-2">Step 02</div>
           <h3 class="text-lg font-semibold text-white mb-3">Upload Your Knowledge</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed, chunked, and embedded into a local vector database. Your data never leaves your machine.</p>
+          <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Relay indexes it locally so the AI can ground answers in your content. Your data never leaves your machine.</p>
         </div>
         <div class="text-center reveal">
           <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
@@ -287,7 +287,7 @@
             </div>
             <div>
               <h3 class="text-lg font-semibold text-white mb-2">Private Knowledge Base</h3>
-              <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed and indexed locally using LanceDB vector embeddings. Your documents never leave your machine.</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Upload DOCX, PDF, or any reference material. Auto-parsed and indexed locally in an on-device knowledge store. Your documents never leave your machine.</p>
             </div>
           </div>
         </div>
@@ -319,8 +319,8 @@
               <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-white mb-2">GPT-Powered Intelligence</h3>
-              <p class="text-slate-400 text-sm leading-relaxed">Powered by OpenAI GPT models via your own API key. Answers are grounded in your uploaded documents using RAG (retrieval-augmented generation) &mdash; not generic ChatGPT responses.</p>
+              <h3 class="text-lg font-semibold text-white mb-2">Grounded Answers, Not Guesses</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">Every answer is grounded in your uploaded documents &mdash; not generic web-scale responses. You bring your own top-tier LLM key; Relay handles the retrieval, grounding, and formatting so the output is on-topic and instantly usable.</p>
             </div>
           </div>
         </div>
@@ -346,7 +346,7 @@
             <ul class="space-y-4">
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <div><span class="text-white font-medium text-sm">Documents &amp; Vector DB (LanceDB)</span><p class="text-slate-400 text-xs mt-0.5">All files, embeddings, and indexes</p></div>
+                <div><span class="text-white font-medium text-sm">Documents &amp; On-Device Knowledge Store</span><p class="text-slate-400 text-xs mt-0.5">All files, indexes, and search data</p></div>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -448,7 +448,7 @@
           <ul class="space-y-3 mb-8">
             <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg><span class="text-white font-medium">Unlimited</span>&nbsp;live sessions</li>
             <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Full knowledge base access</li>
-            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>GPT-powered AI answers</li>
+            <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Grounded AI answers in real time</li>
             <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Priority support</li>
             <li class="flex items-center gap-3 text-sm text-slate-300"><svg class="w-4 h-4 text-accent shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>2-device license</li>
           </ul>
@@ -503,7 +503,7 @@
             <svg class="w-5 h-5 text-slate-500 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-5 pb-5 text-sm text-slate-400 leading-relaxed">
-            No. <span class="text-slate-300 font-medium">Relay has no backend &mdash; there&rsquo;s no &ldquo;Relay server&rdquo; your data ever touches.</span> Documents are parsed, chunked, and embedded locally into a vector database on your own machine. Call audio is streamed only to Deepgram (for transcription) and OpenAI (for answer generation) via the API keys you configured. Those two providers are the only external destinations, and they&rsquo;re tied to your own accounts under your own contracts.
+            No. <span class="text-slate-300 font-medium">Relay has no backend &mdash; there&rsquo;s no &ldquo;Relay server&rdquo; your data ever touches.</span> Your documents are parsed and indexed entirely on your own machine. Call audio is streamed only to Deepgram (for transcription) and OpenAI (for answer generation) via the API keys you configured. Those two providers are the only external destinations, and they&rsquo;re tied to your own accounts under your own contracts.
           </div>
         </details>
 
