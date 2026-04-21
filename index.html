@@ -504,7 +504,8 @@
         <div class="flex items-center gap-6 text-sm text-slate-500">
           <a href="#" class="hover:text-slate-300 transition-colors">Privacy Policy</a>
           <a href="#" class="hover:text-slate-300 transition-colors">Terms of Service</a>
-          <a href="mailto:support@relaycopilot.app" class="hover:text-slate-300 transition-colors">Contact</a>
+          <a href="mailto:support@relaycopilot.app" id="contact-link" class="hover:text-slate-300 transition-colors" title="Click to open your email app or copy the address">support@relaycopilot.app</a>
+          <span id="contact-toast" class="hidden text-xs text-emerald-400 transition-opacity">Copied!</span>
         </div>
       </div>
       <div class="mt-8 pt-6 border-t border-white/5 text-center">
@@ -540,6 +541,42 @@
         }
       });
     });
+  </script>
+
+  <!-- Contact link: attempt mailto AND copy the address to clipboard as a fallback -->
+  <script>
+    (function () {
+      var link = document.getElementById('contact-link');
+      var toast = document.getElementById('contact-toast');
+      if (!link || !toast) return;
+      var EMAIL = 'support@relaycopilot.app';
+
+      link.addEventListener('click', function (e) {
+        // Copy to clipboard in the background; mailto will still fire as the default
+        // anchor action. If the visitor has no mail handler, at least the email is
+        // now in their clipboard and visible in the toast.
+        var showToast = function () {
+          toast.classList.remove('hidden');
+          toast.style.opacity = '1';
+          setTimeout(function () {
+            toast.style.opacity = '0';
+            setTimeout(function () { toast.classList.add('hidden'); }, 400);
+          }, 2500);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(EMAIL).then(showToast).catch(showToast);
+        } else {
+          // Legacy fallback for older browsers
+          var ta = document.createElement('textarea');
+          ta.value = EMAIL; document.body.appendChild(ta);
+          ta.select(); try { document.execCommand('copy'); } catch (err) {}
+          document.body.removeChild(ta);
+          showToast();
+        }
+        // Do NOT preventDefault — let mailto: still try to open the mail client
+      });
+    })();
   </script>
 </body>
 </html>
