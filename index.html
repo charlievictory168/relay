@@ -472,8 +472,37 @@
             <span>Do I need my own OpenAI and Deepgram accounts?</span>
             <svg class="w-5 h-5 text-slate-500 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
-          <div class="px-5 pb-5 text-sm text-slate-400 leading-relaxed">
-            Yes. Relay uses a <span class="text-slate-300 font-medium">bring-your-own-keys (BYOK)</span> model &mdash; you create accounts directly with OpenAI and Deepgram and paste your API keys into Relay&rsquo;s Settings. Your keys are stored locally on your machine and you pay the providers directly at their published list prices. <span class="text-slate-300">No markup, no middleman, full cost transparency.</span>
+          <div class="px-5 pb-5 text-sm text-slate-400 leading-relaxed space-y-4">
+            <p>Yes. Relay uses a <span class="text-slate-300 font-medium">bring-your-own-keys (BYOK)</span> model &mdash; you create accounts directly with OpenAI and Deepgram and paste your API keys into Relay&rsquo;s Settings. Your keys are stored locally on your machine and you pay the providers directly at their published list prices. <span class="text-slate-300">No markup, no middleman, full cost transparency.</span></p>
+
+            <div class="pt-2">
+              <p class="text-slate-300 font-medium mb-3">Where to get your keys (takes about 5 minutes total):</p>
+
+              <div class="space-y-3">
+                <div class="rounded-lg border border-white/5 bg-navy-900/40 p-4">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs font-mono text-accent">STT</span>
+                    <span class="text-slate-200 font-medium">Deepgram</span>
+                    <span class="text-xs text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full">$200 free credit on signup</span>
+                  </div>
+                  <p class="text-slate-400 text-xs leading-relaxed">
+                    Sign up at <a href="https://console.deepgram.com/signup" target="_blank" rel="noopener" class="text-accent hover:underline">console.deepgram.com/signup</a>, then create an API key from the dashboard. The free credit is enough for roughly <span class="text-slate-300">200+ hours of transcription</span> &mdash; no card required to start.
+                  </p>
+                </div>
+
+                <div class="rounded-lg border border-white/5 bg-navy-900/40 p-4">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs font-mono text-accent">LLM</span>
+                    <span class="text-slate-200 font-medium">OpenAI</span>
+                  </div>
+                  <p class="text-slate-400 text-xs leading-relaxed">
+                    Sign up at <a href="https://platform.openai.com/signup" target="_blank" rel="noopener" class="text-accent hover:underline">platform.openai.com/signup</a>, add a small billing balance (<span class="text-slate-300">$5 minimum</span> is plenty for weeks of consulting calls), then create a key at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener" class="text-accent hover:underline">platform.openai.com/api-keys</a>.
+                  </p>
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-500 mt-3 italic">Both providers offer enterprise-grade zero-retention policies when your account is configured correctly &mdash; your call content is never used to train their models.</p>
+            </div>
           </div>
         </details>
 
